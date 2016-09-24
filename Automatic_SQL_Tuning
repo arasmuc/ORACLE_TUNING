@@ -7,8 +7,8 @@ END;
 
 ------------------------------------------------------------------------------------------------------------------------------
 
-1. Execute the Automatic SQL Tuning task immediately: 
-EXEC DBMS_AUTO_SQLTUNE.EXECUTE_AUTO_TUNING_TASK; Note: must be run as SYS!
+1. Execute the Automatic SQL Tuning task immediately: Note: must be run as SYS!
+EXEC DBMS_AUTO_SQLTUNE.EXECUTE_AUTO_TUNING_TASK; 
 
 2. Display a text report of the automatic tuning task’s history: 
 SELECT DBMS_AUTO_SQLTUNE.REPORT_AUTO_TUNING_TASK FROM DUAL;
