@@ -25,9 +25,14 @@ SELECT TASK_NAME, STATUS FROM DBA_ADVISOR_LOG WHERE TASK_NAME = 'TASK_47103';
 SELECT DBMS_SQLTUNE.REPORT_TUNING_TASK('TASK_47103') AS recommendations FROM dual;
 
 
----- Examine the recommendations from Oracle, in case you agree, then accept the best SQL profile
+--- Examine the recommendations from Oracle, in case you agree, then accept the best SQL profile
 begin
 DBMS_SQLTUNE.ACCEPT_SQL_PROFILE(task_name => 'TASK_47103', task_owner => 'SYSTEM', replace => TRUE);
 end;
 /
 
+--- In case you want to disable an sql profile use the statement:
+begin
+DBMS_SQLTUNE.ALTER_SQL_PROFILE('SQL_PROFILE','STATUS','DISABLED');
+end;
+/
