@@ -1,0 +1,1 @@
+exec dbms_stats.gather_table_stats( user, 'TABLE_NAME', method_opt=> 'for all columns size 254' ); 
