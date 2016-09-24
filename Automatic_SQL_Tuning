@@ -11,13 +11,45 @@ DBMS_AUTO_SQLTUNE.SET_AUTO_TUNING_TASK_PARAMETER(
 parameter => 'ACCEPT_SQL_PROFILES', value => 'TRUE');
 END;
 /
+------------------------------------------------------------------------------------------------------------------------------
+How to Enable or DISABLE Automatic SQL Tuning
+
+BEGIN
+DBMS_AUTO_TASK_ADMIN.ENABLE(
+client_name => 'sql tuning advisor',
+operation => NULL,
+window_name => NULL);
+END;
+/
+
+BEGIN
+DBMS_AUTO_TASK_ADMIN.DISABLE(
+client_name => 'sql tuning advisor',
+operation => NULL,
+window_name => NULL);
+END;
 
 ------------------------------------------------------------------------------------------------------------------------------
+determine if any Automatic SQL Tuning jobs are enabled:
+
 SELECT client_name, status, consumer_group, window_group
 FROM dba_autotask_client
 ORDER BY client_name;
 ------------------------------------------------------------------------------------------------------------------------------
+view the maintenance window details with this query:
 
+SELECT window_name,TO_CHAR(window_next_time,'DD-MON-YY HH24:MI:SS')
+,sql_tune_advisor, optimizer_stats, segment_advisor
+FROM dba_autotask_window_clients;
+------------------------------------------------------------------------------------------------------------------------------
+How to View the Results of SQL Tuning Advisor:
+
+SELECT DBMS_AUTO_SQLTUNE.REPORT_AUTO_TUNING_TASK FROM DUAL;
+SELECT DBMS_SQLTUNE.REPORT_AUTO_TUNING_TASK FROM DUAL;
+------------------------------------------------------------------------------------------------------------------------------
+
+
+------------------------------------------------------------------------------------------------------------------------------
 1. Execute the Automatic SQL Tuning task immediately: Note: must be run as SYS.
 EXEC DBMS_AUTO_SQLTUNE.EXECUTE_AUTO_TUNING_TASK; 
 
@@ -31,6 +63,4 @@ You can view all parameters as follows:
 SELECT PARAMETER_NAME, PARAMETER_VALUE, IS_DEFAULT, DESCRIPTION
 FROM DBA_ADVISOR_PARAMETERS
 WHERE task_name = 'SYS_AUTO_SQL_TUNING_TASK';
-
-
 ------------------------------------------------------------------------------------------------------------------------------
