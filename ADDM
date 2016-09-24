@@ -1,0 +1,12 @@
+-- Check ADDM report for any pool corrections (SGA size, shared pool, buffer cache etc).
+ 
+-- Check last 10 ADDM findings:
+col begin_time for a14
+col finding_name for a23
+col impact for 999999999999
+col impact_type for a17
+col message for a50
+select * from (select to_char(begin_time, 'YY-MM-DD HH24:MI') begin_time, finding_name, impact, impact_type, message
+from dba_addm_findings f, dba_addm_tasks t
+where impact <> 0 and type='PROBLEM' and f.task_id = t.task_id
+order by 1 desc ) where rownum < 11;
