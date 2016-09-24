@@ -1,0 +1,33 @@
+--- create the tuning task:
+SET SERVEROUTPUT ON
+declare
+stmt_task VARCHAR2(40);
+begin
+stmt_task := DBMS_SQLTUNE.CREATE_TUNING_TASK(sql_id => '9tq805jnhqpu6');
+DBMS_OUTPUT.put_line('task_id: ' || stmt_task );
+end;
+/
+
+task_id: TASK_47103
+PL/SQL procedure successfully completed.
+
+--- Run the SQL TUNING TASK
+begin
+DBMS_SQLTUNE.EXECUTE_TUNING_TASK(task_name => 'TASK_47103');
+end;
+/
+
+---- You can monitor the processing of the tuning task with the statement 
+SELECT TASK_NAME, STATUS FROM DBA_ADVISOR_LOG WHERE TASK_NAME = 'TASK_47103';
+
+
+--- When the task has a status=COMPLETED, then run:
+SELECT DBMS_SQLTUNE.REPORT_TUNING_TASK('TASK_47103') AS recommendations FROM dual;
+
+
+---- Examine the recommendations from Oracle, in case you agree, then accept the best SQL profile
+begin
+DBMS_SQLTUNE.ACCEPT_SQL_PROFILE(task_name => 'TASK_47103', task_owner => 'SYSTEM', replace => TRUE);
+end;
+/
+
