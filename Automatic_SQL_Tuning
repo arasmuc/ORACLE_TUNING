@@ -28,7 +28,7 @@ client_name => 'sql tuning advisor',
 operation => NULL,
 window_name => NULL);
 END;
-
+/
 ------------------------------------------------------------------------------------------------------------------------------
 determine if any Automatic SQL Tuning jobs are enabled:
 
