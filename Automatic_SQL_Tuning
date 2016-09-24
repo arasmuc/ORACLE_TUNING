@@ -13,19 +13,24 @@ END;
 /
 
 ------------------------------------------------------------------------------------------------------------------------------
+SELECT client_name, status, consumer_group, window_group
+FROM dba_autotask_client
+ORDER BY client_name;
+------------------------------------------------------------------------------------------------------------------------------
 
-1. Execute the Automatic SQL Tuning task immediately: Note: must be run as SYS!
+1. Execute the Automatic SQL Tuning task immediately: Note: must be run as SYS.
 EXEC DBMS_AUTO_SQLTUNE.EXECUTE_AUTO_TUNING_TASK; 
 
 2. Display a text report of the automatic tuning task’s history: 
 SELECT DBMS_AUTO_SQLTUNE.REPORT_AUTO_TUNING_TASK FROM DUAL;
 
-3. Change a task parameter value for the daily automatic runs: see in the beginning how to enable automatic acceptance of SQL profiles. 
+3. Change a task parameter value for the daily automatic runs: 
+see in the beginning how to enable automatic acceptance of SQL profiles. 
 You can view all parameters as follows:
 
 SELECT PARAMETER_NAME, PARAMETER_VALUE, IS_DEFAULT, DESCRIPTION
 FROM DBA_ADVISOR_PARAMETERS
-WHERE task_name = 'SYS_AUTO_SQL_TUNING_TASK'
-/
+WHERE task_name = 'SYS_AUTO_SQL_TUNING_TASK';
+
 
 ------------------------------------------------------------------------------------------------------------------------------
