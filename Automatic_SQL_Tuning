@@ -1,3 +1,10 @@
+-- 11.2.0.2 Onward
+BEGIN
+  DBMS_AUTO_SQLTUNE.set_auto_tuning_task_parameter(
+    parameter => 'ACCEPT_SQL_PROFILES',
+    value     => 'FALSE');
+END;
+/
 
 BEGIN
 DBMS_AUTO_SQLTUNE.SET_AUTO_TUNING_TASK_PARAMETER(
