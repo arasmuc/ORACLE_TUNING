@@ -11,6 +11,17 @@ from dba_addm_findings f, dba_addm_tasks t
 where impact <> 0 and type='PROBLEM' and f.task_id = t.task_id
 order by 1 desc ) where rownum < 11;
 
+-----
+select task_name, execution_end 
+from dba_advisor_tasks 
+where advisor_name='ADDM' 
+and status='COMPLETED' 
+and owner='SYS' 
+order by execution_end desc;
+
+-----
+select DBMS_ADVISOR.GET_TASK_REPORT('<task_name from previous query>', 'TEXT', 'TYPICAL', 'ALL', 'SYS') from dual;
+
 --------------------------------------------------------------------------------------------------------------------------------------------
 
 -- ADDM does analysis of the data in the AWR, so any references to snapshots relates to the AWR snapshots
