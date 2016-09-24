@@ -1,0 +1,2 @@
+oraclee@ORA10GR2> set autotrace traceonly explain 
+oracle@ORA10GR2> select * from t; 
