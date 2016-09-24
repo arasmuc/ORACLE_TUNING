@@ -26,7 +26,7 @@ FROM   dba_hist_snapshot
 WHERE  begin_interval_time > TRUNC(SYSTIMESTAMP)
 ORDER BY snap_id;
 
-
+--------------------------------------------
 --- he ANALYZE_DB procedure does analysis of the whole database for the period between the two specified snapshots.
 
 DECLARE
@@ -39,6 +39,7 @@ BEGIN
 END;
 /
 
+--------------------------------------------
 --- The GET_REPORT function returns the findings for the specified analysis task.
 
 SET LONG 1000000 LONGCHUNKSIZE 1000000
@@ -48,6 +49,7 @@ SET ECHO OFF FEEDBACK OFF
 
 SELECT DBMS_ADDM.get_report('MY_REPORT_DB') FROM dual;
 
+--------------------------------------------
 ---- You can remove any ADDM tasks using the DELETE procedure.
 
 BEGIN
