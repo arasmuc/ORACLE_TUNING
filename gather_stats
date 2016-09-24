@@ -1,1 +1,29 @@
-exec dbms_stats.gather_table_stats( user, 'TABLE_NAME', method_opt=> 'for all columns size 254' ); 
+-- Check system statistics
+
+column "SYSTEM Statistic status" format a25
+column "When collected (MM-DD-YYYY)" format a30
+select p1 "SYSTEM Statistic status", p2 "When collected (MM-DD-YYYY)" from
+(select pval2 p1 from sys.aux_stats$ where pname = 'STATUS'),
+(select pval2 p2 from sys.aux_stats$ where pname = 'DSTOP');
+-- Check fixed table stats
+col dat for a15 heading "YYYY-MM-DD"
+select count(*), to_char(last_analyzed, 'yyyy-mm-dd') dat
+from dba_tab_col_statistics
+where owner = 'SYS' and
+table_name like'X$%'
+group by to_char(last_analyzed, 'yyyy-mm-dd')
+order by 2 desc;
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+-- If system statistics is more than 1 year old or DB has been relocated recently – re-gather it ASAP:
+
+exec dbms_stats.gather_dictionary_stats;
+EXEC dbms_stats.gather_fixed_objects_stats;
+exec dbms_stats.gather_schema_stats('SYS',options=>'GATHER',estimate_percent=>DBMS_STATS.AUTO_SAMPLE_SIZE, method_opt=>'FOR ALL COLUMNS SIZE 254', cascade=>TRUE);
+exec dbms_stats.gather_system_stats('start');
+exec dbms_lock.sleep(180);
+exec dbms_stats.gather_system_stats('stop');
+
+------------------------------------------------------------------------------------------------------------------------------------
+
